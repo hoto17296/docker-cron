@@ -1,7 +1,7 @@
 # docker-cron
 
 ## Usage
-- Mount the crontab file to `/var/spool/cron/crontabs/root`.
+- Add the crontab file to `/var/spool/cron/crontabs/root`.
 - Set `TZ` environment variable if you use except UTC.
 
 ```
@@ -10,15 +10,11 @@
 * * * * * echo 'stderr' >&2
 ```
 
-``` yml
-version: '3'
+``` Dockerfile
+# Dockerfile example
+FROM hoto17296/cron
 
-services:
-
-  cron:
-    image: hoto17296/cron
-    environment:
-      TZ: Asia/Tokyo
-    volumes:
-      - ./crontab:/var/spool/cron/crontabs/root
+ENV TZ "Asia/Tokyo"
+ADD crontab /var/spool/cron/crontabs/root
+RUN chmod 644 /var/spool/cron/crontabs/root
 ```
